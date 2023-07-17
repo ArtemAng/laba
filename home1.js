@@ -62,15 +62,25 @@ String.prototype.multiply = function (num) {
 }
 
 String.prototype.divide = function (num) {
-	let [num1, num2] = [this.toString(), num];
-	let divide = num1;
-	let res = 0;
-	for (; parseInt(divide) > parseInt(num2); divide = divide.minus(num2), res++) {	}
-	return res;
+	let [num1, num2] = [this, num];
+	let intermediateValue = 0;
+	let result = "";
+
+	for (let i = 0; i < num1.length; i++) {
+		const currentDigit = parseInt(num1[i]);
+
+		const dividend = intermediateValue * 10 + currentDigit;
+		const divideResult = Math.floor(dividend / num2);
+		intermediateValue = dividend % num2;
+
+		result += divideResult.toString();
+	}
+
+	return result.replace(/^0+/, '');
 }
 
 
 console.log('plus:', '9876543210987654321098765432109876543210'.plus('1234567890123456789012345678901234567890'));
 console.log('minus:', '9876543210987654321098765432109876543210'.minus('1234567890123456789012345678901234567890'));
 console.log('multiply:', '9876543210987654321098765432109876543210'.multiply('1234567890123456789012345678901234567890'));
-console.log('divide:', '9876543210987654321098765432109876543210'.divide('1234567890123456789012345678901234567890'));
+console.log('divide:', '9876543210987654321098765432109876543210'.divide('2'));
