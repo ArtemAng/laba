@@ -4,11 +4,11 @@ const addValues = (num1, num2) => {
 		correctTypes.includes(type)
 	);
 
-	if (typeof num1 === 'boolean' || typeof num2 === 'boolean') {
-		if (typeof num2 === 'boolean' && typeof num1 === 'boolean') {
+	if (typeof num1 === "boolean" || typeof num2 === "boolean") {
+		if (typeof num2 === "boolean" && typeof num1 === "boolean") {
 			return num1 || num2;
 		}
-		return 'Error: if you want to add booleans, params must be a booleans';
+		return "Error: if you want to add booleans, params must be a booleans";
 	}
 
 	return numsTypes.length === 2
@@ -51,7 +51,7 @@ const convertToNumber = (value) => {
 const coerceToType = (value, type) => {
 	switch (type) {
 		case "string":
-				return stringifyValue(value);
+			return stringifyValue(value);
 		case "number":
 			return convertToNumber(value);
 		case "boolean":
@@ -84,7 +84,10 @@ const variables = [
 	function () {},
 ];
 //results
-console.log("addValues:", variables.map(item => addValues(item, item)));
+console.log(
+	"addValues:",
+	variables.map((item) => addValues(item, item))
+);
 console.log("stringifyValue:", variables.map(stringifyValue));
 console.log("invertBoolean:", variables.map(invertBoolean));
 console.log("convertToNumber:", variables.map(convertToNumber));
