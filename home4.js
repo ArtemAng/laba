@@ -6,7 +6,7 @@ const person = {
   email: "john.doe@example.com",
   updateInfo(info) {
     Object.keys(info).forEach(key => {
-      if (this.hasOwnProperty(key)) {
+      if (this.hasOwnProperty(key) && Object.getOwnPropertyDescriptor(this, key).writable) {
         Object.defineProperty(this, key, {
           value: info[key],
           writable: false
