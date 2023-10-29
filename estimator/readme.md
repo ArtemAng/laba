@@ -3,6 +3,18 @@
 ## Description
 The IT Project Estimator is a project estimation tool designed for an IT company. Its main purpose is to calculate the cost of a project in person-hours and provide a list of available employees who are not currently assigned to other projects. This system will assist the company in effectively estimating project costs and managing resources.
 
+### Content:
+  - [Content:](#content)
+  - [Description](#description)
+  - [Technical Requirements](#technical-requirements)
+  - [Implementation Details](#implementation-details)
+  - [Endpoints](#endpoints)
+    - [Projects](#projects)
+    - [Employees](#employees)
+    - [Users](#users)
+  - [Install](#endpoints)
+  - [Run in docker container](#run-in-docker-container)
+
 ## Technical Requirements
 The IT Project Estimator is built using the following technologies:
 - Node.js - a server-side platform for building scalable applications
@@ -419,21 +431,39 @@ Install dependencies
 npm install
 ```
 # Run in docker container 
-For running application in Docker container you should have docker installed on your machine
 
-Run app
+> Before you start, make sure that you've installed Docker.
+> You can use [Docker Desktop](https://www.docker.com/products/docker-desktop/).
 
-```bash
-docker compose up
-```
-Stop App
+1. Run docker-compose.
 
 ```bash
-docker compose down
+docker-compose up --build -V
 ```
-For Run App
-Run command
+
+2. Wait unless postgres container started
+3. Create user `estimator` (password: `estimator`) and database `estimator` (owner `estimator`) for bot inside postgres container
+4. Run next commands to setup database structure
 
 ```bash
-node index.ts
+export DATABASE_URL=postgresql://estimator:estimator@localhost:5432/estimator
+npm run build
+npm run migrations:run
+npm run seed
 ```
+
+5. Create `.env` file in the root directory with the following content:
+
+```dotenv
+PORT=2000
+POSTGRES_HOST=localhost
+POSTGRES_USER=estimator
+POSTGRES_PASSWORD=estimator
+POSTGRES_DB=estimator
+POSTGRES_PORT=5432
+PRIVATE_KEY=key_qwerty
+
+DATABASE_URL=postgresql://estimator:estimator@postgres:5432/estimator
+```
+
+6. Restart docker-compose services
