@@ -8,6 +8,9 @@ import { User } from './users/users.model';
 import { AuthModule } from './auth/auth.module';
 import { EmployeesModule } from './employees/employees.module';
 import { ProjectsModule } from './projects/projects.module';
+import { Employee } from './employees/employee.model';
+import { Project } from './projects/project.model';
+import { ProjectEmployee } from './projects/project-employees.model';
 
 @Module({
   imports: [
@@ -22,7 +25,7 @@ import { ProjectsModule } from './projects/projects.module';
       password: process.env.POSTGRES_PASSWORD,
       database: process.env.POSTGRES_DB,
       uri: process.env.DATABASE_URL,
-      models: [User],
+      models: [User, Employee, Project, ProjectEmployee],
       autoLoadModels: true,
     }),
     UsersModule,

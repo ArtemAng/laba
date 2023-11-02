@@ -51,9 +51,4 @@ export class ProjectsService {
     const projects = await this.projectRepository.findAll({ include: { all: true } });
     return projects;
   }
-
-  async findProjectByUserEmail(email: string) {
-    const user = await this.projectRepository.findOne({ where: { owner: { email: email } }, include: { all: true } });
-    return user;
-  }
 }

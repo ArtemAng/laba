@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsString, IsEmail, IsArray  } from "class-validator";
+import { IsString, IsEmail, IsArray, IsInt  } from "class-validator";
 
 export class CreateProjectDto {
   @ApiProperty({example: 'My project', description: 'Project name'})
@@ -11,6 +11,6 @@ export class CreateProjectDto {
   ownerEmail: string;
 
   @ApiProperty({example: 100, description: 'Hours spent'})
-  @IsEmail({}, { message: 'Email is not valid' })
+  @IsInt( { message: 'Incorrect hours' })
   hours: number;
 }

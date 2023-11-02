@@ -1,4 +1,4 @@
-import { Table, Column, Model, DataType, BelongsToMany, BelongsTo } from 'sequelize-typescript';
+import { Table, Column, Model, DataType, BelongsToMany, BelongsTo, HasOne, ForeignKey } from 'sequelize-typescript';
 import { Employee } from 'src/employees/employee.model';
 import { User } from 'src/users/users.model';
 import { ProjectEmployee } from './project-employees.model';
@@ -41,8 +41,10 @@ export class Project extends Model<Project, ProjectCreationAttrs > {
   @BelongsToMany(() => Employee,  () => ProjectEmployee)
   employees: Employee[];
 
-  @ApiProperty({ example: 'jUJ4m@example.com', description: 'Project owner\'s email' })
-  @BelongsTo(() => User, 'ownerId')
-  owner: User;
+  @ForeignKey(() => User)
+  ownerId: number;
 
+  // @BelongsTo(() => User)
+  // owner: User;
+  
 }
