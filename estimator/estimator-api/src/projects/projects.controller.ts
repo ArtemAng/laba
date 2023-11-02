@@ -33,4 +33,12 @@ export class ProjectsController {
   addEmployeeToProject(@Body() empDtp: AddEmployeeDto,  @Param('id') projectId: string) {
     return  this.projectsService.addEmployeeToProject(empDtp.email, projectId);
   }
+
+  @ApiOperation({summary: 'Calculate project cost'})
+  @UsePipes(ValidationPipe)
+  @ApiResponse({status: 200, type: Project})
+  @Get(':id')
+  calculateCost(@Param('id') projectId: string) {
+    return this.projectsService.calculateCost(projectId);
+  }
 }

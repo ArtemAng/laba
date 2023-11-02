@@ -4,16 +4,17 @@
 The IT Project Estimator is a project estimation tool designed for an IT company. Its main purpose is to calculate the cost of a project in person-hours and provide a list of available employees who are not currently assigned to other projects. This system will assist the company in effectively estimating project costs and managing resources.
 
 ### Content:
-  - [Content:](#content)
+- [IT Project Estimator](#it-project-estimator)
   - [Description](#description)
+    - [Content:](#content)
   - [Technical Requirements](#technical-requirements)
   - [Implementation Details](#implementation-details)
-  - [Endpoints](#endpoints)
-    - [Projects](#projects)
-    - [Employees](#employees)
-    - [Users](#users)
-  - [Install](#endpoints)
-  - [Run in docker container](#run-in-docker-container)
+- [Endpoints](#endpoints)
+  - [Projects](#projects)
+  - [Employees](#employees)
+    - [Request: POST `api/v1/employes` - create new employee](#request-post-apiv1employes---create-new-employee)
+  - [Users](#users)
+- [Run in docker container](#run-in-docker-container)
 
 ## Technical Requirements
 The IT Project Estimator is built using the following technologies:
@@ -419,11 +420,11 @@ The IT Project Estimator exposes the following endpoints:
 Clone this repo with command
 
 ```bash
-git clone git@github.com:ilyaKarachun/HospitalSolvd.git
+git clone git@github.com:ArtemAng/laba.git
 ```
 Go to project folder
 ```bash
-cd hospitalSolvd
+cd estimator/estimator-api
 ```
 Install dependencies
 

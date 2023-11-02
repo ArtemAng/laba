@@ -52,4 +52,21 @@ export class ProjectsService {
     const projects = await this.projectRepository.findAll({ include: { all: true } });
     return projects;
   }
+
+  async calculateCost(projectId: string) {
+    const project = await this.findProjectById(projectId);
+    if(!project){
+      throw new HttpException('Project with this id does not exist', HttpStatus.BAD_REQUEST);
+    }
+
+    const employees = project.employees;
+    const cost = employees.reduce((acc, cur) => acc + cur.pricePerHour, 0) * project.hours;
+
+    return cost;
+  }
+
+  async findProjectById(id: string) {
+    const project = await this.projectRepository.findOne({ where: { id }, include: { all: true } });
+    return project;
+  }
 }
