@@ -6,7 +6,7 @@ export class AuthUserDto {
     @IsEmail({}, {message: 'Incorrect email'})
     readonly email: string;
 
-    @ApiProperty({example: 'Pa$$word', description: 'User first name'})
+    @ApiProperty({example: 'Pa$$w0rd', description: 'User first name'})
     @Length(5, 30, {message: 'Password must be between 5 and 30 characters'})
     readonly password: string;
 }

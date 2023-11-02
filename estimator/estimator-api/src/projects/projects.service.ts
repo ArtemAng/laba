@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { Project } from './project.model';
 import { InjectModel } from '@nestjs/sequelize';
 import { CreateProjectDto } from './dto/create-project.dto';
@@ -26,8 +26,9 @@ export class ProjectsService {
 
     const project = await this.projectRepository.create({
       ...dto,
-      owner: owner
     })
+
+    await project.$set('owner', owner.id);
 
     return project;
   }

@@ -44,7 +44,7 @@ export class Project extends Model<Project, ProjectCreationAttrs > {
   @ForeignKey(() => User)
   ownerId: number;
 
-  // @BelongsTo(() => User)
-  // owner: User;
+  @BelongsTo(() => User)
+  owner: User;
   
 }
