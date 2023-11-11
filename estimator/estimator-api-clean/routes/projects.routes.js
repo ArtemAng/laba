@@ -8,5 +8,6 @@ router.get('/projects', ProjectController.getAllProjects);
 router.post('/projects', ProjectController.createProject);
 router.post('/projects/:id', ProjectController.addEmployeeToProject);
 router.get('/projects/:id', ProjectController.calculateCost);
+router.delete('/projects/:id', ProjectController.deleteProject);
 
 module.exports = router;

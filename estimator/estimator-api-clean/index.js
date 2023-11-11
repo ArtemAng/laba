@@ -1,4 +1,6 @@
 require('dotenv').config();
+const {createTables} = require('./generate.database');
+
 const express = require('express');
 
 const userRouter = require('./routes/user.routes');
@@ -16,6 +18,8 @@ app.use('/api', employeeRouter);
 app.use('/api', projectRouter);
 app.use('/api', authRouter);
 
-app.listen(PORT, () => {
+app.listen(PORT, async () => {
+  const creationResult = await createTables();
+  creationResult.status ? console.log('Database created') : console.log(`Error: ${creationResult.message}`); 
   console.log(`Server started on port ${PORT}`);
 })

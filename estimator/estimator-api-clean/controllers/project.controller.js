@@ -45,7 +45,7 @@ class ProjectController {
     try{
       const projectId = req.params.id;
       const {employeeId} = req.body;
-      const query = 'INSERT INTO "project_employees" ("projectId", "employeeId") VALUES ($1, $2) RETURNING *';
+      const query = 'INSERT INTO "project_employees" ("projectId", "employeeId") VALUES ($1, $2) ';
       const newEmployee = await db.query(query, [projectId, employeeId]);
       res.json(newEmployee.rows[0]);
     } catch (e){
@@ -55,8 +55,8 @@ class ProjectController {
   async createProject(req, res) {
     try{
       const {name, ownerEmail, hours} = req.body;
-      const owner = await db.query('SELECT * FROM "users" WHERE "email" = $1', [ownerEmail]);
-      const query = 'INSERT INTO "projects" ("name", "hours", "ownerId") VALUES ($1, $2, $3) RETURNING *';
+      const owner = await db.query('SELECT "id", "email", "password", "firstName", "lastName" FROM "users" WHERE "email" = $1', [ownerEmail]);
+      const query = 'INSERT INTO "projects" ("name", "hours", "ownerId") VALUES ($1, $2, $3) ';
       const newProject = await db.query(query, [name, hours, owner.rows[0].id]);
       res.json(newProject.rows[0]);
     } catch (e){
@@ -107,6 +107,17 @@ class ProjectController {
 
       res.json({cost});
       
+    } catch (e){
+      res.status(400).json({message: e.message})
+    }
+  }
+
+  async deleteProject(req, res) {
+    try{
+      const projectId = req.params.id;
+      const query = 'DELETE FROM "projects" WHERE "id" = $1';
+      const deletedProject = await db.query(query, [projectId]);
+      res.json(deletedProject.rows[0]);
     } catch (e){
       res.status(400).json({message: e.message})
     }

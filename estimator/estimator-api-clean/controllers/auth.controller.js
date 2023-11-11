@@ -33,7 +33,7 @@ class AuthController {
   async signIn(req, res) {
     try{
       const {email, password} = req.body;
-      const user = await db.query('SELECT * FROM "users" WHERE "email" = $1', [email]);
+      const user = await db.query('SELECT "id", "email", "password", "firstName", "lastName" FROM "users" WHERE "email" = $1', [email]);
       if (!user.rows.length) {
         throw new Error('User not found');
       }
@@ -52,14 +52,14 @@ class AuthController {
   async signUp(req, res) {
     try{
       const {email, password} = req.body;
-      const query = `SELECT * FROM "users" WHERE "email" = $1`;
+      const query = `SELECT "id", "email", "password", "firstName", "lastName" FROM "users" WHERE "email" = $1`;
       const user = await db.query(query, [email]);
       if (user.rows.length) {
         throw new Error('User already exists');
       }
       const hashPassword = bcrypt.hashSync(password, 7);
      
-      const newUser = await db.query('INSERT INTO "users" ("email", "password", "firstName", "lastName") VALUES ($1, $2, $3, $4) RETURNING *', [email, hashPassword, req.body.firstName, req.body.lastName]);
+      const newUser = await db.query('INSERT INTO "users" ("email", "password", "firstName", "lastName") VALUES ($1, $2, $3, $4)', [email, hashPassword, req.body.firstName, req.body.lastName]);
       res.json( await sign({email, hashPassword}))
     } catch (e){
       res.status(400).json({message: e.message})
