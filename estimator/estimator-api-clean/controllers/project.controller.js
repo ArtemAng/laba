@@ -38,7 +38,7 @@ class ProjectController {
       const projects = await db.query(query);
       res.json(projects.rows)
     } catch (e){
-      res.status(400).json({message: e.message})
+      res.status(500).json({message: e.message})
     }
   }
   async addEmployeeToProject(req, res) {
@@ -49,7 +49,7 @@ class ProjectController {
       const newEmployee = await db.query(query, [projectId, employeeId]);
       res.json(newEmployee.rows[0]);
     } catch (e){
-      res.status(400).json({message: e.message})
+      res.status(500).json({message: e.message})
     }
   }
   async createProject(req, res) {
@@ -60,7 +60,7 @@ class ProjectController {
       const newProject = await db.query(query, [name, hours, owner.rows[0].id]);
       res.json(newProject.rows[0]);
     } catch (e){
-      res.status(400).json({message: e.message})
+      res.status(500).json({message: e.message})
     }
   }
 
@@ -108,7 +108,7 @@ class ProjectController {
       res.json({cost});
       
     } catch (e){
-      res.status(400).json({message: e.message})
+      res.status(500).json({message: e.message})
     }
   }
 
@@ -119,7 +119,7 @@ class ProjectController {
       const deletedProject = await db.query(query, [projectId]);
       res.json(deletedProject.rows[0]);
     } catch (e){
-      res.status(400).json({message: e.message})
+      res.status(500).json({message: e.message})
     }
   }
 }

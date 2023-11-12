@@ -7,7 +7,7 @@ class UserController {
       const users = await db.query(query);
       res.json(users.rows)
     } catch (e){
-      res.status(400).json({message: e.message})
+      res.status(500).json({message: e.message})
     }
   }
   
@@ -20,7 +20,7 @@ class UserController {
       
       res.json(newUser.rows[0]);
     } catch (e){
-      res.status(400).json({message: e.message})
+      res.status(500).json({message: e.message})
     }
   }
 
@@ -31,7 +31,7 @@ class UserController {
       const deletedUser = await db.query(query, [userId]);
       res.json(deletedUser.rows[0]);
     } catch (e){
-      res.status(400).json({message: e.message})
+      res.status(500).json({message: e.message})
     }
   }
 }

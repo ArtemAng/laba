@@ -45,7 +45,7 @@ class AuthController {
         throw new Error('Invalid password or email');
       }
     } catch (e){
-      res.status(400).json({message: e.message})
+      res.status(500).json({message: e.message})
     }
   }
 
@@ -62,7 +62,7 @@ class AuthController {
       const newUser = await db.query('INSERT INTO "users" ("email", "password", "firstName", "lastName") VALUES ($1, $2, $3, $4)', [email, hashPassword, req.body.firstName, req.body.lastName]);
       res.json( await sign({email, hashPassword}))
     } catch (e){
-      res.status(400).json({message: e.message})
+      res.status(500).json({message: e.message})
     }
   }
 }

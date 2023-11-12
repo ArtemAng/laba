@@ -7,7 +7,7 @@ class EmployeeController {
       const employees = await db.query(query);
       res.json(employees.rows)
     } catch (e){
-      res.status(400).json({message: e.message})
+      res.status(500).json({message: e.message})
     }
   }
   
@@ -19,7 +19,7 @@ class EmployeeController {
       
       res.json(newemployee.rows[0]);
     } catch (e){
-      res.status(400).json({message: e.message})
+      res.status(500).json({message: e.message})
     }
   }
   
@@ -30,7 +30,7 @@ class EmployeeController {
       const deletedEmployee = await db.query(query, [employeeId]);
       res.json(deletedEmployee.rows[0]);
     } catch (e){
-      res.status(400).json({message: e.message})
+      res.status(500).json({message: e.message})
     }
   }
 }

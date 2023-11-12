@@ -499,7 +499,7 @@ npm run seed
 
 ```dotenv
 PORT=2000
-POSTGRES_HOST=localhost
+POSTGRES_HOST=estimator-postgres
 POSTGRES_USER=estimator
 POSTGRES_PASSWORD=estimator
 POSTGRES_DB=estimator
