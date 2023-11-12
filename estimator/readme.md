@@ -10,6 +10,11 @@ The IT Project Estimator is a project estimation tool designed for an IT company
   - [Technical Requirements](#technical-requirements)
   - [Implementation Details](#implementation-details)
 - [Endpoints](#endpoints)
+- [Database schema](#database-schema)
+  - [Table "users"](#table-users)
+  - [Table "projects"](#table-projects)
+  - [Table "employees"](#table-employees)
+  - [Table "project\_employees"](#table-project_employees)
   - [Projects](#projects)
   - [Employees](#employees)
     - [Request: POST `api/v1/employes` - create new employee](#request-post-apiv1employes---create-new-employee)
@@ -35,6 +40,59 @@ The IT Project Estimator exposes the following endpoints:
 - `/employees` (GET) - Retrieves a list of available employees without current projects.
 - `/users` (POST) - Accepts user's data and creates new user.
 - `/users` (GET) - Retrieves a list of registered users.
+
+# Database schema
+## Table "users"
+
+| Column      | Data Type   | Constraints       |
+|-------------|-------------|-------------------|
+| id          | SERIAL      | Unique            |
+| email       | VARCHAR(255) | NOT NULL, Unique  |
+| password    | VARCHAR(255) | NOT NULL          |
+| firstName   | VARCHAR(255) | NOT NULL          |
+| lastName    | VARCHAR(255) | NOT NULL          |
+
+**Relationships with other tables:**
+- Foreign key: ownerId, references the id field in the "projects" table with ON DELETE SET NULL ON UPDATE CASCADE settings.
+
+## Table "projects"
+
+| Column      | Data Type   | Constraints       |
+|-------------|-------------|-------------------|
+| id          | SERIAL      |                   |
+| name        | VARCHAR(255) | NOT NULL          |
+| hours       | INTEGER     | NOT NULL          |
+| ownerId     | INTEGER     | References "users.id" (Foreign key) |
+
+**Relationships with other tables:**
+- Foreign key: ownerId, references the id field in the "users" table with ON DELETE SET NULL ON UPDATE CASCADE settings.
+
+## Table "employees"
+
+| Column           | Data Type   | Constraints       |
+|------------------|-------------|-------------------|
+| id               | SERIAL      | Unique            |
+| firstName        | VARCHAR(255) | NOT NULL          |
+| lastName         | VARCHAR(255) | NOT NULL          |
+| email            | VARCHAR(255) | NOT NULL, Unique  |
+| age              | INTEGER     | NOT NULL          |
+| workExperience   | INTEGER     | NOT NULL          |
+| programmingLevel | VARCHAR(255) | NOT NULL          |
+| pricePerHour     | INTEGER     | NOT NULL          |
+
+## Table "project_employees"
+
+| Column      | Data Type   | Constraints       |
+|-------------|-------------|-------------------|
+| id          | SERIAL      |                   |
+| projectId   | INTEGER     | NOT NULL          |
+| employeeId  | INTEGER     | NOT NULL          |
+
+**Relationships with other tables:**
+- Foreign key: projectId, references the id field in the "projects" table with ON DELETE CASCADE ON UPDATE CASCADE settings.
+- Foreign key: employeeId, references the id field in the "employees" table with ON DELETE CASCADE ON UPDATE CASCADE settings.
+
+This description provides the table structure and relationships between them. You can use it to create documentation and have a better understanding of the database structure.
 
 ## Projects
 
