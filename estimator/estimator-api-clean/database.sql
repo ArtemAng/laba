@@ -20,7 +20,6 @@ CREATE TABLE IF NOT EXISTS "employees" (
   "lastName" VARCHAR(255) NOT NULL, 
   "email" VARCHAR(255) NOT NULL UNIQUE, 
   "age" INTEGER NOT NULL, 
-  "workExperience" INTEGER NOT NULL, 
   "programmingLevel" VARCHAR(255) NOT NULL, 
   "pricePerHour" INTEGER NOT NULL, 
   PRIMARY KEY ("id"));

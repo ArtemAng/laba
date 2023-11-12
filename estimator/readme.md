@@ -59,7 +59,7 @@ The IT Project Estimator exposes the following endpoints:
 
 | Column      | Data Type   | Constraints       |
 |-------------|-------------|-------------------|
-| id          | SERIAL      |                   |
+| id          | SERIAL      |    Unique               |
 | name        | VARCHAR(255) | NOT NULL          |
 | hours       | INTEGER     | NOT NULL          |
 | ownerId     | INTEGER     | References "users.id" (Foreign key) |
@@ -76,7 +76,6 @@ The IT Project Estimator exposes the following endpoints:
 | lastName         | VARCHAR(255) | NOT NULL          |
 | email            | VARCHAR(255) | NOT NULL, Unique  |
 | age              | INTEGER     | NOT NULL          |
-| workExperience   | INTEGER     | NOT NULL          |
 | programmingLevel | VARCHAR(255) | NOT NULL          |
 | pricePerHour     | INTEGER     | NOT NULL          |
 
@@ -84,7 +83,7 @@ The IT Project Estimator exposes the following endpoints:
 
 | Column      | Data Type   | Constraints       |
 |-------------|-------------|-------------------|
-| id          | SERIAL      |                   |
+| id          | SERIAL      |     Unique              |
 | projectId   | INTEGER     | NOT NULL          |
 | employeeId  | INTEGER     | NOT NULL          |
 
@@ -110,7 +109,6 @@ This description provides the table structure and relationships between them. Yo
                     "lastName": "Musk",
                     "email": "elon@x.com",
                     "age": 15
-                    "workExperience": 1,
                     "programmingLevel": "Junior",
                     "pricePerHour": 10
                 },
@@ -130,7 +128,6 @@ This description provides the table structure and relationships between them. Yo
                     "lastName": "Griffin",
                     "email": "pumpkineater@gmail.com",
                     "age": 34
-                    "workExperience": 10,
                     "programmingLevel": "Senior",
                     "pricePerHour": 99
                 },
@@ -139,7 +136,6 @@ This description provides the table structure and relationships between them. Yo
                     "lastName": "Griffin",
                     "email": "stewie@gmail.com",
                     "age": 1
-                    "workExperience": 10,
                     "programmingLevel": "Senior",
                     "pricePerHour": 199
                 },
@@ -174,7 +170,6 @@ This description provides the table structure and relationships between them. Yo
 				"lastName": "Musk",
 				"email": "elon@x.com",
 				"age": 15
-				"workExperience": 1,
 				"programmingLevel": "Junior",
 				"pricePerHour": 10
 			},
@@ -210,7 +205,6 @@ This description provides the table structure and relationships between them. Yo
 				"lastName": "Musk",
 				"email": "elon@x.com",
 				"age": 15
-				"workExperience": 1,
 				"programmingLevel": "Junior",
 				"pricePerHour": 10
 			},
@@ -244,7 +238,6 @@ This description provides the table structure and relationships between them. Yo
 				"lastName": "Musk",
 				"email": "elon@x.com",
 				"age": 15
-				"workExperience": 1,
 				"programmingLevel": "Junior",
 				"pricePerHour": 10
 			},
@@ -267,7 +260,6 @@ This description provides the table structure and relationships between them. Yo
           "lastName": "Musk",
           "email": "elon@x.com",
           "age": 15
-          "workExperience": 1,
           "programmingLevel": "Junior",
           "pricePerHour": 10
         },
@@ -276,7 +268,6 @@ This description provides the table structure and relationships between them. Yo
             "lastName": "Griffin",
             "email": "pumpkineater@gmail.com",
             "age": 34
-            "workExperience": 10,
             "programmingLevel": "Senior",
             "pricePerHour": 99
         },
@@ -285,7 +276,6 @@ This description provides the table structure and relationships between them. Yo
             "lastName": "Griffin",
             "email": "stewie@gmail.com",
             "age": 1
-            "workExperience": 10,
             "programmingLevel": "Senior",
             "pricePerHour": 199
         },
@@ -310,7 +300,6 @@ This description provides the table structure and relationships between them. Yo
           "lastName": "Musk",
           "email": "elon@x.com",
           "age": 15
-          "workExperience": 1,
           "programmingLevel": "Junior",
           "pricePerHour": 10
         },
@@ -319,7 +308,6 @@ This description provides the table structure and relationships between them. Yo
             "lastName": "Griffin",
             "email": "pumpkineater@gmail.com",
             "age": 34
-            "workExperience": 10,
             "programmingLevel": "Senior",
             "pricePerHour": 99
         },
@@ -328,7 +316,6 @@ This description provides the table structure and relationships between them. Yo
             "lastName": "Griffin",
             "email": "stewie@gmail.com",
             "age": 1
-            "workExperience": 10,
             "programmingLevel": "Senior",
             "pricePerHour": 199
         },
@@ -347,7 +334,6 @@ This description provides the table structure and relationships between them. Yo
     | lastName         | string  | Yes      | The employee's last naem.   |
     | email            | string  | Yes      | The employee's email.       |
     | age              | integer | Yes      | The employee's age.         |
-    | workExperience   | integer | Yes      | The number of years worked. |
     | programmingLevel | string  | Yes      | The programming level.      |
     | pricePerHour     | float   | Yes      | The price per hour in $.    |
 
@@ -360,7 +346,6 @@ This description provides the table structure and relationships between them. Yo
           "lastName": "Employee",
           "email": "new@employee.com",
           "age": 1
-          "workExperience": 1,
           "programmingLevel": "Junior",
           "pricePerHour": 1
         }
@@ -387,7 +372,6 @@ This description provides the table structure and relationships between them. Yo
         "lastName": "Musk",
         "email": "elon@x.com",
         "age": 15
-        "workExperience": 1,
         "programmingLevel": "Junior",
         "pricePerHour": 10
       },
