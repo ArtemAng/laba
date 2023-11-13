@@ -19,7 +19,7 @@ class ProjectController {
         'lastName', "employees"."lastName",
         'pricePerHour', "employees"."pricePerHour",
         'programmingLevel', "employees"."programmingLevel"
-      ) ) as "employeeEmails"
+      ) ) as "employees"
     FROM 
       "projects" 
       LEFT JOIN "users" ON "projects"."ownerId" = "users"."id"
@@ -36,7 +36,14 @@ class ProjectController {
       "projects"."id" DESC
       `;
       const projects = await db.query(query);
-      res.json(projects.rows)
+      
+      res.json(projects.rows.map(project => ({
+        id: project.id,
+        name: project.name,
+        hours: project.hours,
+        owner: project.owner,
+        employees: project.employees[0].email === null  ? [] : project.employees
+      })))
     } catch (e){
       res.status(500).json({message: e.message})
     }
@@ -46,6 +53,19 @@ class ProjectController {
       const projectId = req.params.id;
       const {employeeId} = req.body;
       const query = 'INSERT INTO "project_employees" ("projectId", "employeeId") VALUES ($1, $2) ';
+
+      const searchQuery = 'SELECT "id", "name" FROM "projects" WHERE "id" = $1';
+      const project = await db.query(searchQuery, [projectId]);
+      if (!project.rows.length) {
+        return res.status(404).json({message: 'Project not found'});
+        // throw new Error('Project not found');
+      }
+
+      const searchEmployeeQuery = 'SELECT "id", "firstName", "lastName" FROM "employees" WHERE "id" = $1';
+      const employee = await db.query(searchEmployeeQuery, [employeeId]);
+      if (!employee.rows.length) {
+        return res.status(404).json({message: 'Employee not found'});
+      }
       const newEmployee = await db.query(query, [projectId, employeeId]);
       res.json(newEmployee.rows[0]);
     } catch (e){
@@ -56,9 +76,14 @@ class ProjectController {
     try{
       const {name, ownerEmail, hours} = req.body;
       const owner = await db.query('SELECT "id", "email", "password", "firstName", "lastName" FROM "users" WHERE "email" = $1', [ownerEmail]);
+      const searchQuery = 'SELECT "id", "name" FROM "projects" WHERE "name" = $1';
+      const project = await db.query(searchQuery, [name]);
+      if (project.rows.length) {
+        return res.status(409).json({message: 'Project already exists'});
+      }
       const query = 'INSERT INTO "projects" ("name", "hours", "ownerId") VALUES ($1, $2, $3) ';
       const newProject = await db.query(query, [name, hours, owner.rows[0].id]);
-      res.json(newProject.rows[0]);
+      res.json({name, hours, owner: {email: owner.rows[0].email, firstName: owner.rows[0].firstName, lastName: owner.rows[0].lastName}});
     } catch (e){
       res.status(500).json({message: e.message})
     }
@@ -116,8 +141,14 @@ class ProjectController {
     try{
       const projectId = req.params.id;
       const query = 'DELETE FROM "projects" WHERE "id" = $1';
+      const searchQuery = 'SELECT "id", "name", hours FROM "projects" WHERE "id" = $1';
+      const project = await db.query(searchQuery, [projectId]);
+      if (!project.rows.length) {
+        return res.status(404).json({message: 'Project not found'});
+        // throw new Error('Project not found');
+      }
       const deletedProject = await db.query(query, [projectId]);
-      res.json(deletedProject.rows[0]);
+      res.json(project.rows[0]);
     } catch (e){
       res.status(500).json({message: e.message})
     }

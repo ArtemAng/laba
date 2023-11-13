@@ -9,8 +9,10 @@ async function sign(user) {
       typ: 'JWT', 
     };
     const payload = {
-      email: user.email,
-      password: user.password
+      iss: 'estimator',
+      exp: Math.floor(Date.now() / 1000) + (60 * 60),
+      sub: user.email,
+      aud: 'localhost',
     };
     const encodedHeader = Buffer.from(JSON.stringify(header)).toString('base64');
     const encodedPayload = Buffer.from(JSON.stringify(payload)).toString('base64');

@@ -9,16 +9,16 @@ The IT Project Estimator is a project estimation tool designed for an IT company
     - [Content:](#content)
   - [Technical Requirements](#technical-requirements)
   - [Implementation Details](#implementation-details)
-- [Endpoints](#endpoints)
 - [Database schema](#database-schema)
   - [Table "users"](#table-users)
   - [Table "projects"](#table-projects)
   - [Table "employees"](#table-employees)
   - [Table "project\_employees"](#table-project_employees)
+- [Endpoints](#endpoints)
   - [Projects](#projects)
   - [Employees](#employees)
-    - [Request: POST `api/v1/employes` - create new employee](#request-post-apiv1employes---create-new-employee)
   - [Users](#users)
+  - [Auth](#auth)
 - [Run in docker container](#run-in-docker-container)
 
 ## Technical Requirements
@@ -32,16 +32,9 @@ The IT Project Estimator is built using the following technologies:
 Base URL
  `http://localhost:2000/api/v1/`
 
-# Endpoints
-The IT Project Estimator exposes the following endpoints:
-- `/projects` (POST) - Accepts project details and calculates the project's cost in person-hours.
-- `/projects` (GET) - Retrieves a list of availible projects.
-- `/employees` (POST) - Accepts data about employees and creates new employee.
-- `/employees` (GET) - Retrieves a list of available employees without current projects.
-- `/users` (POST) - Accepts user's data and creates new user.
-- `/users` (GET) - Retrieves a list of registered users.
-
 # Database schema
+![Database diagramm](./diagramm.png)
+
 ## Table "users"
 
 | Column      | Data Type   | Constraints       |
@@ -92,6 +85,18 @@ The IT Project Estimator exposes the following endpoints:
 - Foreign key: employeeId, references the id field in the "employees" table with ON DELETE CASCADE ON UPDATE CASCADE settings.
 
 This description provides the table structure and relationships between them. You can use it to create documentation and have a better understanding of the database structure.
+
+
+# Endpoints
+The IT Project Estimator exposes the following endpoints:
+- `/projects` (POST) - Accepts project details and calculates the project's cost in person-hours.
+- `/projects` (GET) - Retrieves a list of availible projects.
+- `/employees` (POST) - Accepts data about employees and creates new employee.
+- `/employees` (GET) - Retrieves a list of available employees without current projects.
+- `/users` (POST) - Accepts user's data and creates new user.
+- `/users` (GET) - Retrieves a list of registered users.
+- `/auth/signin` (POST) - Retrieves a token. Accepts email and password
+- `/auth/signup` (POST) - Retrieves a token. Accepts email, password, firstName, lastName
 
 ## Projects
 
@@ -148,15 +153,12 @@ This description provides the table structure and relationships between them. Yo
         },
     ]
     ```
-
 - ### Request: GET `api/v1/projects/{projectId}` - get project by id
   
   Query Parameters
-
   | Parameter | Type   | Required | Description     |
   | --------- | ------ | -------- | --------------- |
   | projectId | string | Yes      | The project ID. |
-
 - Response:
     ```
     HTTP/1.1 200 OK
@@ -181,17 +183,14 @@ This description provides the table structure and relationships between them. Yo
 		}
 	}
     ```
-
 - ### Request: POST `api/v1/projects/` - create new project
   
   Query Parameters
-
   | Parameter | Type    | Required | Description       |
   | --------- | ------- | -------- | ----------------- |
   | name      | string  | Yes      | The project name. |
   | employes  | array   | Yes      | The employees ids |
   | owner     | integer | Yes      | The user ID.      |
-
 - Response (returns created project):
     ```
     HTTP/1.1 200 OK
@@ -216,15 +215,12 @@ This description provides the table structure and relationships between them. Yo
 		}
 	}
     ```
-
 - Request: DELETE `api/v1/projects/{projectId}` - delete project by id
   
   Query Parameters
-
   | Parameter | Type   | Required | Description     |
   | --------- | ------ | -------- | --------------- |
   | projectId | string | Yes      | The project ID. |
-
 - Response (returns deleted project):
     ```
     HTTP/1.1 200 OK
@@ -249,7 +245,6 @@ This description provides the table structure and relationships between them. Yo
 		}
 	}
 ## Employees
-
 - ### Request: GET `api/v1/employes` - get all employes
 - Response:
     ```
@@ -281,13 +276,10 @@ This description provides the table structure and relationships between them. Yo
         },
     ]
     ```
-
 - ### Request: GET `api/v1/employes/{employeeID}` - get employee by Id
-
 - Request:
  
   Query parametrs
-
     | Parameter  | Type    | Required | Description      |
     | ---------- | ------- | -------- | ---------------- |
     | employeeId | integer | Yes      | The employee ID. |
@@ -321,13 +313,10 @@ This description provides the table structure and relationships between them. Yo
         },
     ]
     ```
-
-### Request: POST `api/v1/employes` - create new employee
-
+- ### Request: POST `api/v1/employes` - create new employee
 - Request:
  
   Query parametrs
-
     | Parameter        | Type    | Required | Description                 |
     | ---------------- | ------- | -------- | --------------------------- |
     | firstName        | string  | Yes      | The employee's first name.  |
@@ -336,7 +325,6 @@ This description provides the table structure and relationships between them. Yo
     | age              | integer | Yes      | The employee's age.         |
     | programmingLevel | string  | Yes      | The programming level.      |
     | pricePerHour     | float   | Yes      | The price per hour in $.    |
-
 - Response:
     ```
     HTTP/1.1 200 OK
@@ -351,18 +339,13 @@ This description provides the table structure and relationships between them. Yo
         }
        
     ```
-
-
 - ### Request: DELETE `api/v1/employes/{employeeID}` - delete employee by Id
-
 - Request:
  
   Query parametrs
-
     | Parameter  | Type    | Required | Description      |
     | ---------- | ------- | -------- | ---------------- |
     | employeeId | integer | Yes      | The employee ID. |
-
 - Response:
     ```
     HTTP/1.1 200 OK
@@ -397,36 +380,14 @@ This description provides the table structure and relationships between them. Yo
         }
     ]
     ```
-
-- ### Request: GET `api/v1/projects/{userId}` - get user by id
+- ### Request: POST `api/v1/users/` - create new user
   
   Query Parameters
-
-  | Parameter | Type   | Required | Description  |
-  | --------- | ------ | -------- | ------------ |
-  | userId    | string | Yes      | The user ID. |
-
-- Response:
-    ```
-    HTTP/1.1 200 OK
-    Content-Type: application/json
-	{	
-    "firstName": "Test",
-    "lastName": "User",
-    "email": "test_user@gmail.com",
-	}
-    ```
-
-- ### Request: POST `api/v1/projects/` - create new user
-  
-  Query Parameters
-
   | Parameter | Type   | Required | Description            |
   | --------- | ------ | -------- | ---------------------- |
   | firstName | string | Yes      | The user's first name. |
   | lastName  | string | Yes      | The user's last name.  |
   | email     | string | Yes      | The user's email.      |
-
 - Response (returns created user):
     ```
     HTTP/1.1 200 OK
@@ -438,15 +399,12 @@ This description provides the table structure and relationships between them. Yo
 			"email": "test_user@gmail.com",
 	}
     ```
-
-- Request: DELETE `api/v1/projects/{projectId}` - delete user by id
+- ### Request: DELETE `api/v1/users/{projectId}` - delete user by id
   
   Query Parameters
-
   | Parameter | Type    | Required | Description  |
   | --------- | ------- | -------- | ------------ |
   | userId    | integer | Yes      | The user ID. |
-
 - Response (returns deleted project):
     ```
     HTTP/1.1 200 OK
@@ -458,6 +416,40 @@ This description provides the table structure and relationships between them. Yo
 			"email": "test_user@gmail.com",
 	}
   ```
+
+## Auth
+- ### Request: GET `api/v1/auth/signin` - sign in account
+  Query Parameters
+  | Parameter | Type   | Required | Description            |
+  | --------- | ------ | -------- | ---------------------- |
+  | password  | string | Yes      | The user's password.   |
+  | email     | string | Yes      | The user's email.      |
+- Response:
+    ```
+    HTTP/1.1 200 OK
+    Content-Type: application/json 
+        {
+           "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJlc3RpbWF0b3IiLCJleHAiOjE2OTk4ODUxMDIsInN1YiI6IjMzYUBxd2UuY29tIiwiYXVkIjoibG9jYWxob3N0In0=.5F1y4v144iHN++ElGJHBZ+5A5QU5In87oBfRXa5hxII="
+        }
+    ```
+
+- ### Request: POST `api/v1/auth/signup` - create new user & sign in
+  
+  Query Parameters
+  | Parameter | Type   | Required | Description            |
+  | --------- | ------ | -------- | ---------------------- |
+  | firstName | string | Yes      | The user's first name. |
+  | lastName  | string | Yes      | The user's last name.  |
+  | email     | string | Yes      | The user's email.      |
+  | password  | string | Yes      | The user's password.   |
+- Response (returns created user):
+    ```
+    HTTP/1.1 200 OK
+    Content-Type: application/json
+       {
+           "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJlc3RpbWF0b3IiLCJleHAiOjE2OTk4ODUxMDIsInN1YiI6IjMzYUBxd2UuY29tIiwiYXVkIjoibG9jYWxob3N0In0=.5F1y4v144iHN++ElGJHBZ+5A5QU5In87oBfRXa5hxII="
+        }
+    ```
 # Install 
 Clone this repo with command
 
@@ -477,7 +469,6 @@ npm install
 
 > Before you start, make sure that you've installed Docker.
 > You can use [Docker Desktop](https://www.docker.com/products/docker-desktop/).
-
 1. Run docker-compose.
 
 ```bash
@@ -505,7 +496,6 @@ POSTGRES_PASSWORD=estimator
 POSTGRES_DB=estimator
 POSTGRES_PORT=5432
 PRIVATE_KEY=key_qwerty
-
 DATABASE_URL=postgresql://estimator:estimator@postgres:5432/estimator
 ```
 
